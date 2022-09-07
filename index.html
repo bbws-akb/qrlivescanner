@@ -11,6 +11,7 @@
             box-sizing: border-box;
             font-family: sans-serif;
         }
+
     </style>
 </head>
 <body>
@@ -19,7 +20,9 @@
         <option value="">Select Camera</option>
     </select>
     <br>
-    <video src="" id="video" style="width: 400px; height: 300px"></video>
+    <div class="video-container">
+        <video src="" id="video" style="width: 400px; height: 300px"></video>
+    </div>
     <br>
 
     <img src="" id="capturedImg" alt="">
@@ -76,7 +79,10 @@
             let video = document.getElementById("video");
             let stream = await navigator.mediaDevices.getUserMedia({
                 video: {
-                    deviceId: cameraSelect.value
+                    deviceId: cameraSelect.value,
+                    facingMode: {
+                        exact: 'environment'
+                    }
                 }
             });
             video.srcObject = stream;
@@ -100,6 +106,7 @@
 
             let imageDataUrl = canvas.toDataURL("image/png");
             document.getElementById("capturedImg").src = imageDataUrl;
+
             qrcode.decode(imageDataUrl);
         });
 
