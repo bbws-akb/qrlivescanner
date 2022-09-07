@@ -8,13 +8,23 @@
 </head>
 <body>
 
+    <select name="" id="cameras">
+
+    </select>
+    <br>
+    <video src="" id="video" style="width: 100%; height: 300px"></video>
+    <br>
+
     <div>
         <pre id="decodeData"></pre>
     </div>
     <br><br>
     <button id="decodeNow">Capture</button>
 
-    <video src="" id="video" style="width: 600px; height: 400px"></video>
+    
+
+
+
     <script type="text/javascript" src="jsqrcode\src\grid.js"></script>
     <script type="text/javascript" src="jsqrcode\src\version.js"></script>
     <script type="text/javascript" src="jsqrcode\src\detector.js"></script>
@@ -34,12 +44,42 @@
     <script type="text/javascript" src="jsqrcode\src\databr.js"></script>    
     <script>
 
-        navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
-            let video = document.querySelector('#video');
+        let cameraSelect = document.getElementById("cameras");
+        (async () => {
+
+           
+
+            let option = document.createElement("option");
+            option.value = "";
+            option.text = "Select Camera";
+            cameraSelect.appendChild(option);
+
+            await navigator.mediaDevices.enumerateDevices().then(devices => {
+                devices.forEach(device => {
+                    if (device.kind === "videoinput") {
+                        let option = document.createElement("option");
+                        option.value = device.deviceId;
+                        option.text = device.label;
+                        cameraSelect.appendChild(option);
+                    }
+                });
+            });
+
+        })
+
+
+        cameraSelect.addEventListener("change", async () => {
+            let video = document.getElementById("video");
+            let stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    deviceId: cameraSelect.value
+                }
+            });
             video.srcObject = stream;
             video.play();
-        });
+        })
 
+     
 
         // set the callback that receives the decoded content as the tasks is async
         qrcode.callback = function(decodedDATA){
