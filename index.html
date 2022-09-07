@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        *{
+            margin: 0;padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+    </style>
 </head>
 <body>
 
@@ -12,7 +19,7 @@
         <option value="">Select Camera</option>
     </select>
     <br>
-    <video src="" id="video" style="width: 100%; height: 300px"></video>
+    <video src="" id="video" style="width: 400px; height: 300px"></video>
     <br>
 
     <img src="" id="capturedImg" alt="">
@@ -86,10 +93,10 @@
 
         document.getElementById("decodeNow").addEventListener("click", function(){
             let canvas = document.createElement("canvas");
-            canvas.width = 600;
-            canvas.height = 400;
+            canvas.width = 400;
+            canvas.height = 300;
             let context = canvas.getContext("2d");
-            context.drawImage(document.getElementById("video"), 0, 0, 600, 400);
+            context.drawImage(document.getElementById("video"), 0, 0, 400, 300);
 
             let imageDataUrl = canvas.toDataURL("image/png");
             document.getElementById("capturedImg").src = imageDataUrl;
