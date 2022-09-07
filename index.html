@@ -80,9 +80,9 @@
             let stream = await navigator.mediaDevices.getUserMedia({
                 video: {
                     deviceId: cameraSelect.value,
-                    facingMode: {
-                        exact: 'environment'
-                    }
+                    min: 1280,
+                    ideal: 1920,
+                    max: 2560,
                 }
             });
             video.srcObject = stream;
