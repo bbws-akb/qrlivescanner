@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div>
+        <pre id="decodeData"></pre>
+    </div>
+    <br><br>
+    <button id="decodeNow">Capture</button>
+
+    <video src="" id="video" style="width: 600px; height: 400px"></video>
+    <script type="text/javascript" src="jsqrcode\src\grid.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\version.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\detector.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\formatinf.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\errorlevel.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\bitmat.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\datablock.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\bmparser.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\datamask.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\rsdecoder.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\gf256poly.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\gf256.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\decoder.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\qrcode.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\findpat.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\alignpat.js"></script>
+    <script type="text/javascript" src="jsqrcode\src\databr.js"></script>    
+    <script>
+
+        navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
+            let video = document.querySelector('#video');
+            video.srcObject = stream;
+            video.play();
+        });
+
+
+        // set the callback that receives the decoded content as the tasks is async
+        qrcode.callback = function(decodedDATA){
+            document.getElementById("decodeData").innerHTML = decodedDATA;
+        };
+
+
+        document.getElementById("decodeNow").addEventListener("click", function(){
+            let canvas = document.createElement("canvas");
+            canvas.width = 600;
+            canvas.height = 400;
+            let context = canvas.getContext("2d");
+            context.drawImage(document.getElementById("video"), 0, 0, 600, 400);
+
+            let imageDataUrl = canvas.toDataURL("image/png");
+            console.log(imageDataUrl);
+            qrcode.decode(imageDataUrl);
+        });
+
+    </script>
+</body>
+</html>
