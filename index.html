@@ -9,7 +9,7 @@
 <body>
 
     <select name="" id="cameras">
-
+        <option value="">Select Camera</option>
     </select>
     <br>
     <video src="" id="video" style="width: 100%; height: 300px"></video>
@@ -23,7 +23,7 @@
 
     
 
-
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="jsqrcode\src\grid.js"></script>
     <script type="text/javascript" src="jsqrcode\src\version.js"></script>
@@ -45,16 +45,11 @@
     <script>
 
         let cameraSelect = document.getElementById("cameras");
-        (async () => {
+        const init = async () => {
 
-           
-
-            let option = document.createElement("option");
-            option.value = "";
-            option.text = "Select Camera";
-            cameraSelect.appendChild(option);
-
+      
             await navigator.mediaDevices.enumerateDevices().then(devices => {
+                console.log('OK');
                 devices.forEach(device => {
                     if (device.kind === "videoinput") {
                         let option = document.createElement("option");
@@ -65,8 +60,9 @@
                 });
             });
 
-        })
+        }
 
+        init();
 
         cameraSelect.addEventListener("change", async () => {
             let video = document.getElementById("video");
