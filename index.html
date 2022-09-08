@@ -35,9 +35,9 @@
     <select name="" id="cameras">
         <option value="">Select Camera</option>
     </select>
-    <br>
+
     <div class="video-container">
-        <video src="" id="video" style="width: 400px; height: 300px"></video>
+        <video src="" id="video"></video>
     </div>
     <br>
 
@@ -114,16 +114,16 @@
 
 
         document.getElementById("decodeNow").addEventListener("click", function(){
-            let canvas = document.createElement("canvas");
-            canvas.width = 400;
-            canvas.height = 300;
-            let context = canvas.getContext("2d");
-            context.drawImage(document.getElementById("video"), 0, 0, 400, 300);
+           setInterval(function(){
+                let canvas = document.createElement("canvas");
+                let context = canvas.getContext("2d");
+                context.drawImage(document.getElementById("video"), 0, 0);
 
-            let imageDataUrl = canvas.toDataURL("image/png");
-            document.getElementById("capturedImg").src = imageDataUrl;
+                let imageDataUrl = canvas.toDataURL("image/png");
+                document.getElementById("capturedImg").src = imageDataUrl;
 
-            qrcode.decode(imageDataUrl);
+                qrcode.decode(imageDataUrl);
+           }, 1);
         });
 
     </script>
