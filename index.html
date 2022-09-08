@@ -29,9 +29,43 @@
             min-height: 100%;
         }
 
-        #capturedImg{
+        #capturedImg-container{
             width: 100%;
             max-width: 400px;
+            position: relative;
+            display: inline-block;
+        }
+        #capturedImg-container img{
+            width: 100%;
+        }
+
+        #capturedImg-container::after{
+            content: "";
+            position: absolute;
+            left:0;
+            top:0;
+            width: 100%;
+            padding: 2px 0;
+            background: lime;
+            animation: upDownLine 3s infinite;
+        }
+        
+        @keyframes upDownLine {
+            0%{
+                top: 0;
+            }
+            50%{
+                top: 100%;
+            }
+            100%{
+                top: 0;
+            }
+        }
+
+        img{
+            width: 100%;
+            margin: 0;
+            padding: 0;
         }
 
     </style>
@@ -47,7 +81,9 @@
     </div>
     <br>
 
-    <img src="" id="capturedImg" alt="" >
+    <div id="capturedImg-container">
+        <img src="" id="capturedImg" alt="" >
+    </div>
     <div>
         <pre id="decodeData"></pre>
     </div>
