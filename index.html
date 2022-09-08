@@ -31,6 +31,7 @@
 
         #capturedImg{
             width: 100%;
+            max-width: 400px;
         }
 
     </style>
@@ -97,30 +98,34 @@
                 });
             });
 
-        }
-
-        init();
-
-        cameraSelect.addEventListener("change", async () => {
-         
             let stream = await navigator.mediaDevices.getUserMedia({
                 video: {
                     deviceId: cameraSelect.value,
-                    min: 1280,
-                    ideal: 1920,
-                    max: 2560,
+                    facingMode: "environment"
                 }
             });
             video.srcObject = stream;
             video.play();
-        })
+
+            startCapture()
+
+           
+
+        }
+
+        init();
+
+     //   cameraSelect.addEventListener("change", async () => {
+         
+            
+      //  })
 
         
 
         // set the callback that receives the decoded content as the tasks is async
         qrcode.callback = function(decodedDATA){
             if(decodedDATA == "error decoding QR Code") return ;
-            
+
             clearInterval(interval);
             swal("QR Code Readed", decodedDATA, "success").then(() => {
                 startCapture();
@@ -128,9 +133,7 @@
         };
 
 
-        document.getElementById("decodeNow").addEventListener("click", function(){
-            startCapture();
-        });
+     
 
         function startCapture(){
             interval = setInterval(function(){
