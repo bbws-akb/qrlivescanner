@@ -74,9 +74,14 @@
     <script type="text/javascript" src="jsqrcode\src\findpat.js"></script>
     <script type="text/javascript" src="jsqrcode\src\alignpat.js"></script>
     <script type="text/javascript" src="jsqrcode\src\databr.js"></script>    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
     <script>
 
+        let video = document.getElementById("video");
         let cameraSelect = document.getElementById("cameras");
+        let interval = null;
+
         const init = async () => {
 
       
@@ -97,7 +102,7 @@
         init();
 
         cameraSelect.addEventListener("change", async () => {
-            let video = document.getElementById("video");
+         
             let stream = await navigator.mediaDevices.getUserMedia({
                 video: {
                     deviceId: cameraSelect.value,
@@ -110,16 +115,23 @@
             video.play();
         })
 
-     
+        
 
         // set the callback that receives the decoded content as the tasks is async
         qrcode.callback = function(decodedDATA){
-            document.getElementById("decodeData").innerHTML = decodedDATA;
+            clearInterval(interval);
+            swal("QR Code Readed", decodedDATA, "success").then(() => {
+                startCapture();
+            });
         };
 
 
         document.getElementById("decodeNow").addEventListener("click", function(){
-           setInterval(function(){
+            startCapture();
+        });
+
+        function startCapture(){
+            interval = setInterval(function(){
                 let canvas = document.createElement("canvas");
                 let context = canvas.getContext("2d");
                 context.drawImage(document.getElementById("video"), 0, 0);
@@ -128,8 +140,8 @@
                 document.getElementById("capturedImg").src = imageDataUrl;
 
                 qrcode.decode(imageDataUrl);
-           }, 1);
-        });
+           }, 0);
+        }
 
     </script>
 </body>
