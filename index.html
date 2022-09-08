@@ -119,6 +119,8 @@
 
         // set the callback that receives the decoded content as the tasks is async
         qrcode.callback = function(decodedDATA){
+            if(decodedDATA == "error decoding QR Code") return ;
+            
             clearInterval(interval);
             swal("QR Code Readed", decodedDATA, "success").then(() => {
                 startCapture();
